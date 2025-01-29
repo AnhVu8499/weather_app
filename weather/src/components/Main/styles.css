@@ -1,0 +1,40 @@
+body {
+    width:100vw;
+    height:100vh;
+    color: white; /* Text color for contrast */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: purple;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;  
+    display: block;     /* Removes extra space below the image caused by inline-block */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+input{
+    height: 50px;
+    width: 300px;
+    border-radius: 50px;
+    padding: 0 20px;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    margin-right: 10px;
+}
+
+button {
+    border:none;
+    height:50px;
+    width:100px;
+    border-radius: 50%;
+}
+  
+
