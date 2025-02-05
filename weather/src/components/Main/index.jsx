@@ -3,21 +3,29 @@ import './styles.css';
 import axios from 'axios';
 import Sun from '../img/sunrise.jpg';
 import Moon from '../img/moon.jpg';
+import Location from '../Location';
 
-const Main = () => {
-    const [city, setCity] = useState('');
-    const [inputCity, setInputCity] = useState('');
+const Main = ({ setCity, city }) => {
+    /////////////////////
+    // Initialize States
+    /////////////////////
+
+    const [currentTime, setCurrentTime] = useState(null);
     const [weather, setWeather] = useState(null);  
     const [loading, setLoading] = useState(false);
+    const [inputCity, setInputCity] = useState('');
     const [error, setError] = useState('');
-    const [currentTime, setCurrentTime] = useState(null);
 
+    //////////////
+    // API
+    //////////////
     const api = '2824b43c294c09a773d66540bbdb9fe5'; // Replace with your actual API key
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${api}&units=metric`;
-
+    
     const handleBtnPress = () => {
         setCity(inputCity);
     }
+
 
     const convertToTimeInTimezone = (timestamp, timezone) => {
         const date = new Date((timestamp + timezone) * 1000); // Add the timezone offset
@@ -29,6 +37,33 @@ const Main = () => {
             hour12: true,
         }).format(date); 
     };
+
+
+    // Determine whether to show sunrise or sunset image based on time
+    const isDayTime = () => {
+        if (!weather) return false;
+
+        // Get current time in UTC
+        const currentUtc = Date.now(); 
+        const sunsetUtc = weather.sys.sunset * 1000; 
+        const sunriseUtc = weather.sys.sunrise * 1000; 
+
+        if (currentUtc >= sunriseUtc && currentUtc < sunsetUtc) {
+            return true; // Daytime (between sunrise and sunset)
+        }
+    
+        return false; 
+    };
+
+    ///////////
+    // Effect
+    ///////////
+    useEffect(() => {
+        if (city) {
+          setInputCity(city); // Automatically update inputCity to the fetched city
+        }
+    }, [city]);
+
 
     // fetch weather data when city changes
     useEffect(() => {
@@ -48,6 +83,8 @@ const Main = () => {
             });
     }, [city, api]);
 
+
+
     // Update current time every second
     useEffect(() => {
         if (!weather) return;
@@ -60,10 +97,37 @@ const Main = () => {
         // Clear interval when the component unmounts or weather changes
         return () => clearInterval(interval);
     }, [weather]);
+    
+    // Create multiple clouds dynamically
+    const generateClouds = (num) => {
+        const clouds = [];
+        for (let i = 0; i < num; i++) {
+            clouds.push(
+                <div className="cloud" key={i} style={{
+                    top: `${Math.random() * 100}%`, // Random vertical position
+                    left: `${Math.random() * 100}%`, // Random horizontal position
+                    animationDelay: `${Math.random() * 10}s` // Random animation delay
+                }}></div>
+            );
+        }
+        return clouds;
+    };
 
-
+    //////////////
+    // Render
+    //////////////
     return (
         <div className="Main">
+            <div className="clouds">
+                {generateClouds(10)} {/* Generate 10 clouds */}
+            </div>
+
+            {/* <div className="clouds">
+                <div className="cloud"></div>
+                <div className="cloud"></div>
+                <div className="cloud"></div>
+            </div> */}
+            <Location setCity={setCity} city={city} />
             <div className="city-name">
                 <input
                     type="text"
@@ -86,7 +150,7 @@ const Main = () => {
                     <p>Wind Speed: {weather.wind.speed} m/s</p>
 
                     {/* Display Pictures based on Day or Night */}
-                    {weather.sys.sunset * 1000 > Date.now() ? (
+                    {isDayTime() ? (
                         <img src={Sun} alt="Sun is up" />
                     ) : (
                         <img src={Moon} alt="Sun has set" />
