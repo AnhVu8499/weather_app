@@ -79,9 +79,9 @@ const Main = ({ setCity, city }) => {
             .then((response) => {
                 setWeather(response.data);
                 setLoading(false);
-                if (response.data.weather[0].description === 'rain') {
+                if (response.data.weather[0].description.includes('rain')) {
                     setWeatherAnimation('Rain');
-                } else if (response.data.weather[0].description === 'snow') {
+                } else if (response.data.weather[0].description.includes('snow')) {
                     setWeatherAnimation('Snow');
                 } else {
                     setWeatherAnimation('Cloud');
@@ -148,13 +148,9 @@ const Main = ({ setCity, city }) => {
                     <p>Current Time: {convertToTimeInTimezone(Date.now() / 1000, weather.timezone)}</p>
                     <p>Temperature: {weather.main.temp}°C</p>
                     <p>Wind Speed: {weather.wind.speed} m/s</p>
-
-                    {/* Display Pictures based on Day or Night */}
-                    {isDayTime() ? (
-                        <img src={Sun} alt="Sun is up" />
-                    ) : (
-                        <img src={Moon} alt="Sun has set" />
-                    )}
+                    <div className="background">
+                        <img src={isDayTime() ? Sun : Moon} alt="Background" className="bg-image" />
+                    </div>
                     
                 </div>
             )}

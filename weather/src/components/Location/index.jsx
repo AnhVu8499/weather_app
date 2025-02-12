@@ -4,7 +4,6 @@ import axios from 'axios';
 const Location = ({ setCity, city }) => {
     const openCageApi = '7bc418295e2d4cdf8465f0ed1975fa38';
 
-    const [zipcode, setZipcode] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -28,7 +27,6 @@ const Location = ({ setCity, city }) => {
                         if (response.data.results.length > 0) {
                             const address = response.data.results[0];
                             setCity(address.components.city || address.components.town || address.components.village);
-                            setZipcode(address.components.postcode);
                         } else {
                             setError('Could not determine location.');
                         }
@@ -57,7 +55,6 @@ const Location = ({ setCity, city }) => {
             {city && (
             <div>
                 <p>City: {city}</p>
-                {zipcode && <p>Zip Code: {zipcode}</p>}
             </div>
             )}
         </div>
