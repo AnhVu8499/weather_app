@@ -1,9 +1,9 @@
-    import React, { useEffect, useState } from 'react';
-    import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-    const Location = ({ setCity, city }) => {
+const Location = ({ setCity, city }) => {
     const openCageApi = '7bc418295e2d4cdf8465f0ed1975fa38';
-    
+
     const [zipcode, setZipcode] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -53,7 +53,7 @@
         <div>
             {loading && <p>Loading...</p>}
             {error && <p>{error}</p>}
-    
+
             {city && (
             <div>
                 <p>City: {city}</p>

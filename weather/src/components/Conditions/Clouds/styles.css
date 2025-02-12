@@ -1,0 +1,65 @@
+/* Fullscreen cloudy animation container */
+.clouds-1, .clouds-2, .clouds-3 {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    animation: moveClouds 60s linear infinite;
+    pointer-events: none; /* Don't affect user interactions */
+}
+
+.clouds-1 {
+    top: 50%;
+    left: 50%;
+}
+
+.clouds-2 {
+    top: 10%;
+    left: 25%;
+}
+
+.clouds-3 {
+    top: 70%;
+    left: 75%;
+}
+
+/* Cloud layers */
+.clouds-1 .cloud-1, .clouds-2 .cloud-2,
+.clouds-3 .cloud-3 {
+    border-radius: 50%;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.7)); /* White, semi-transparent clouds */
+}
+
+
+/* Additional cloud layers with slower movement */
+.clouds-1 .cloud-1:nth-child(2), .clouds-2 .cloud-2:nth-child(2),
+.clouds-3 .cloud-3:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    top: 50px;
+    left:-70px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.5)); /* Lighter clouds */
+}
+
+/* Even slower cloud layers */
+.clouds-1 .cloud-1:nth-child(3),.clouds-2 .cloud-2:nth-child(3),
+.clouds-3 .cloud-3:nth-child(3) {
+    width: 130px;
+    height: 130px;
+    top: 70px;
+    left:150px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.8)); /* Thick, puffy clouds */
+}
+
+/* Cloud movement animation */
+@keyframes moveClouds {
+    0% {
+        transform: translateX(-100%); /* Start offscreen to the left */
+    }
+    100% {
+        transform: translateX(100%); /* Start offscreen to the left */
+    }
+}

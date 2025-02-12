@@ -4,12 +4,16 @@ import axios from 'axios';
 import Sun from '../img/sunrise.jpg';
 import Moon from '../img/moon.jpg';
 import Location from '../Location';
+import Cloud from '../Conditions/Clouds';
+import Snow from '../Conditions/Snow';
+import Rain from '../Conditions/Rain';
 
 const Main = ({ setCity, city }) => {
     /////////////////////
     // Initialize States
     /////////////////////
 
+    const [weatherAnimation, setWeatherAnimation] = useState(null);
     const [currentTime, setCurrentTime] = useState(null);
     const [weather, setWeather] = useState(null);  
     const [loading, setLoading] = useState(false);
@@ -25,7 +29,6 @@ const Main = ({ setCity, city }) => {
     const handleBtnPress = () => {
         setCity(inputCity);
     }
-
 
     const convertToTimeInTimezone = (timestamp, timezone) => {
         const date = new Date((timestamp + timezone) * 1000); // Add the timezone offset
@@ -76,6 +79,13 @@ const Main = ({ setCity, city }) => {
             .then((response) => {
                 setWeather(response.data);
                 setLoading(false);
+                if (response.data.weather[0].description === 'rain') {
+                    setWeatherAnimation('Rain');
+                } else if (response.data.weather[0].description === 'snow') {
+                    setWeatherAnimation('Snow');
+                } else {
+                    setWeatherAnimation('Cloud');
+                }
             })
             .catch(() => {
                 setError('Error fetching weather data');
@@ -97,36 +107,26 @@ const Main = ({ setCity, city }) => {
         // Clear interval when the component unmounts or weather changes
         return () => clearInterval(interval);
     }, [weather]);
-    
-    // Create multiple clouds dynamically
-    const generateClouds = (num) => {
-        const clouds = [];
-        for (let i = 0; i < num; i++) {
-            clouds.push(
-                <div className="cloud" key={i} style={{
-                    top: `${Math.random() * 100}%`, // Random vertical position
-                    left: `${Math.random() * 100}%`, // Random horizontal position
-                    animationDelay: `${Math.random() * 10}s` // Random animation delay
-                }}></div>
-            );
-        }
-        return clouds;
-    };
+
 
     //////////////
     // Render
     //////////////
     return (
         <div className="Main">
-            <div className="clouds">
-                {generateClouds(10)} {/* Generate 10 clouds */}
-            </div>
-
-            {/* <div className="clouds">
-                <div className="cloud"></div>
-                <div className="cloud"></div>
-                <div className="cloud"></div>
-            </div> */}
+            {
+                weatherAnimation === 'Cloud' ? (
+                    <>
+                    <Cloud cloudGroup="clouds-1" cloudClass="cloud-1" count={3} />
+                    <Cloud cloudGroup="clouds-2" cloudClass="cloud-2" count={3} />
+                    <Cloud cloudGroup="clouds-3" cloudClass="cloud-3" count={3} />
+                    </>
+                ) : weatherAnimation === 'Snow' ? (
+                    <Snow />
+                ) : weatherAnimation === 'Rain' ? (
+                    <Rain />
+                ) : null 
+            }
             <Location setCity={setCity} city={city} />
             <div className="city-name">
                 <input

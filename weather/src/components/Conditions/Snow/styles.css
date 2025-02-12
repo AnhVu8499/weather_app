@@ -1,0 +1,23 @@
+/* Specific snow styles (when 'snowing' class is added) */
+.snowing .drop {
+    width: 8px;  /* Snowflakes are larger */
+    height: 8px;
+    background-color: #fff; /* White for snow */
+    border-radius: 50%;
+    animation-duration: 6s; /* Slower animation for snowflakes */
+  }
+  
+  .snowing .stem {
+    width: 1px;
+    height: 60%;
+    margin-left: 3px;
+    background: rgba(255, 255, 255, 0.6);
+  }
+  
+  .snowing .splat {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.7);
+    opacity: 0;
+    animation: splat 0.5s forwards;
+  }
