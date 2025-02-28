@@ -1,22 +1,22 @@
 .snowing .drop {
-    width: 8px;  
-    height: 8px;
-    background-color: #fff; 
-    border-radius: 50%;
-    animation-duration: 6s; 
-  }
+  width: 8px;  
+  height: 8px;
+  background-color: #fff; 
+  border-radius: 50%;
+  animation-duration: 6s; 
+}
   
-  .snowing .stem {
-    width: 1px;
-    height: 60%;
-    margin-left: 3px;
-    background: rgba(255, 255, 255, 0.6);
-  }
+.snowing .stem {
+  width: 1px;
+  height: 60%;
+  margin-left: 3px;
+  background: rgba(255, 255, 255, 0.6);
+}
   
-  .snowing .splat {
-    width: 10px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.7);
-    opacity: 0;
-    animation: splat 0.5s forwards;
-  }
+.snowing .splat {
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  opacity: 0;
+  animation: splat 0.5s forwards;
+}
